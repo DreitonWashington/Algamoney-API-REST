@@ -32,7 +32,8 @@ public class RefreshTokenCookiePreProcessorFilter implements Filter {
               
                   String refreshToken = 
                       Stream.of(req.getCookies())
-                          .filter(cookie -> "refreshToken".equals(cookie.getName()))
+                      		//refreshToken mudei para refresh_token
+                          .filter(cookie -> "refresh_token".equals(cookie.getName()))
                           .findFirst()
                           .map(cookie -> cookie.getValue())
                           .orElse(null);

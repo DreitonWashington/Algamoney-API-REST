@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,13 +33,20 @@ public class PessoaService {
 		Long codigo = pessoa.getCodigo();
 		Pessoa pessoaAtual = pessoaRepository.findById(codigo).orElseThrow(()->new PessoaNaoEncontradaException(codigo));
 		
-		BeanUtils.copyProperties(pessoa, pessoaAtual, "codigo");
+		pessoaAtual.getContatos().clear();
+		pessoaAtual.getContatos().addAll(pessoa.getContatos());
+		
+		pessoaAtual.getContatos().forEach(c -> c.setPessoa(pessoaAtual));
+		
+
+		BeanUtils.copyProperties(pessoa, pessoaAtual, "codigo", "contatos");
 		
 		return pessoaRepository.save(pessoaAtual);
 	}
 	
 	@Transactional
 	public Pessoa add(Pessoa pessoa, HttpServletResponse response) {
+		pessoa.getContatos().forEach(c -> c.setPessoa(pessoa));
 		pessoaRepository.save(pessoa);        	
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, pessoa.getCodigo()));
 		
@@ -48,7 +56,11 @@ public class PessoaService {
 	@Transactional
 	public void deletar(Long codigo) {
 		Pessoa pessoa = pessoaRepository.findById(codigo).orElseThrow(()->new PessoaNaoEncontradaException(codigo));
-		pessoaRepository.delete(pessoa);
+		try {
+			pessoaRepository.delete(pessoa);			
+		}catch(DataIntegrityViolationException e) {
+			throw new DataIntegrityViolationException(e.getMessage());
+		}
 	}
 	
 	@Transactional

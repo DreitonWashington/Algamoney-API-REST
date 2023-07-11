@@ -119,7 +119,7 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler{
 			WebRequest request){
 		
 		
-		ProblemType problemType = ProblemType.CAMPOS_COM_VALORES_ERRADOS;
+		ProblemType problemType = ProblemType.RECURSO_EM_USO;
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		String detail = ExceptionUtils.getRootCauseMessage(ex);
 		Problem problem = buildProblem(status, problemType, detail);

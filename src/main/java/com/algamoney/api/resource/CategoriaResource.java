@@ -40,7 +40,7 @@ public class CategoriaResource {
 	
 	//@CrossOrigin(maxAge = 10, origins = {"http://localhost:8000","http://127.0.0.1:8000"})
 	@GetMapping
-	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and hasAuthority('SCOPE_read')" )
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA')")// and hasAuthority('SCOPE_read')" )
 	public Page<Categoria> listar(Pageable pageable){
 		return categoriaRepository.findAll(pageable);
 	}

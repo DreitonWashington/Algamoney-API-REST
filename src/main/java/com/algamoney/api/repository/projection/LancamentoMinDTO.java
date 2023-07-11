@@ -41,6 +41,8 @@ public class LancamentoMinDTO {
 		this.pessoa = pessoa;
 	}
 
+
+
 	public Long getCodigo() {
 		return codigo;
 	}

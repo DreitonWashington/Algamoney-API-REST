@@ -1,4 +1,4 @@
-package com.algamoney.api.resource;
+	package com.algamoney.api.resource;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ public class TokenResource {
 	
 	@DeleteMapping("/revoke")
 	public void revoke(HttpServletRequest req, HttpServletResponse res) {
-		Cookie cookie = new Cookie("refreshToken", null);
+		Cookie cookie = new Cookie("refresh_token", null);
 		cookie.setHttpOnly(true);
 		cookie.setSecure(algamoneyApiProperty.getSeguranca().isEnableHttps()); //TODO: True em producao
 		cookie.setPath(req.getContextPath()+ "/oauth/token");

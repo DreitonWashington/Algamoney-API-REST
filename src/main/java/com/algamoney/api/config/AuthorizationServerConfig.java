@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -30,6 +31,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private UserDetailsService userDeatilsService;
 
 	
     	
@@ -56,12 +60,20 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		
 		TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
 		tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
-		
+		/*
 		endpoints
 			.tokenEnhancer(tokenEnhancerChain)
 			.tokenStore(tokenStore())
 			.reuseRefreshTokens(false)
-			.authenticationManager(authenticationManager);
+			.authenticationManager(authenticationManager);*/
+		
+		endpoints
+		.tokenEnhancer(tokenEnhancerChain)
+		.authenticationManager(authenticationManager)
+		.accessTokenConverter(accessTokenConverter())
+		.tokenStore(tokenStore())
+		.userDetailsService(userDeatilsService)
+		.reuseRefreshTokens(false);
 	}
 	
 	@Bean

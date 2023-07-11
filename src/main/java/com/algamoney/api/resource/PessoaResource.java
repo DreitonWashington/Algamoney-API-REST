@@ -40,6 +40,12 @@ public class PessoaResource {
 		return pessoaRepository.findAll(pageable);
 	}
 	
+	@GetMapping(params = "nome")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA')")
+	public Page<Pessoa> listaByname(String nome,Pageable pageable){
+		return pessoaRepository.findByNomeContaining(nome,pageable);
+	}
+	
 	@GetMapping("/buscar-por")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA')")
 	public Page<Pessoa> buscarPorNome(@RequestParam("nome") String nome, Pageable pageable) {
