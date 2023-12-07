@@ -6,6 +6,6 @@ Desenvolvida usando o ecossistema Spring como o Spring Web, Spring Data Jpa, Sec
 
 Front-End: https://github.com/DreitonWashington/UI-Algamoney
 
-Vídeo de aplicação:
+Vídeo da aplicação:
 
 ![moneyGIF](https://github.com/DreitonWashington/UI-Algamoney/assets/96394627/a2db2a46-dc12-4274-89ea-001333a42333)
